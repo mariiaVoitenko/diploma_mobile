@@ -1,4 +1,4 @@
-package diploma.voitenko.com.diploma_mobile.service;
+package com.voitenko.diploma.mobile.service;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import diploma.voitenko.com.diploma_mobile.ConstantsContainer;
+import com.voitenko.diploma.mobile.ConstantsContainer;
 
 public class DataConverter {
     public static String timeStampToString(Timestamp time) {

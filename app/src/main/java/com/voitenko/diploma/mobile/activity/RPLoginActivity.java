@@ -1,6 +1,9 @@
-package diploma.voitenko.com.diploma_mobile.activity;
+package com.voitenko.diploma.mobile.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -32,26 +35,27 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
-import diploma.voitenko.com.diploma_mobile.ConstantsContainer;
 import diploma.voitenko.com.diploma_mobile.R;
-import diploma.voitenko.com.diploma_mobile.service.DataConverter;
-import diploma.voitenko.com.diploma_mobile.service.UserManager;
+
+import com.voitenko.diploma.mobile.ConstantsContainer;
+import com.voitenko.diploma.mobile.service.DataConverter;
+import com.voitenko.diploma.mobile.service.UserManager;
 
 public class RPLoginActivity extends Activity {
 
-    //facebook callbacks manager
+    public static final String SCAN_RESULT = "SCAN_RESULT";
+    public static final String SCAN_RESULT_FORMAT = "SCAN_RESULT_FORMAT";
+
     private CallbackManager mCallbackManager;
-    private Button mGoToMainButton;
-    private Button mRegisterButton;
-    private Button mRestorePasswordButton;
-    private LoginButton mFbLoginButton;
+
+    static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
 
     private FacebookCallback<LoginResult> mCallback = new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(LoginResult loginResult) {
             AccessToken accessToken = loginResult.getAccessToken();
             if (accessToken != null) {
-                Intent main = new Intent(RPLoginActivity.this, MainActivity.class);
+                Intent main = new Intent(RPLoginActivity.this, CountriesActivity.class);
                 main.putExtra("login", "noapp");
                 startActivity(main);
             }
@@ -63,7 +67,7 @@ public class RPLoginActivity extends Activity {
         }
 
         @Override
-        public void onError(FacebookException e) {
+        public void onError(FacebookException error) {
 
         }
     };
@@ -75,106 +79,66 @@ public class RPLoginActivity extends Activity {
         mCallbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
 
-        mGoToMainButton = (Button) findViewById(R.id.gotomain_button);
-        mFbLoginButton = (LoginButton) findViewById(R.id.login_button);
-        mRegisterButton = (Button) findViewById(R.id.registrate);
-        mRestorePasswordButton = (Button) findViewById(R.id.lostpassword);
+        LoginButton mFbLoginButton = (LoginButton) findViewById(R.id.login_button);
 
-        if (UserManager.isProfileValid(RPLoginActivity.this)) {
-            mRegisterButton.setVisibility(View.GONE);
-            mRestorePasswordButton.setVisibility(View.GONE);
-        }
-        else{
-            mRegisterButton.setVisibility(View.VISIBLE);
-            mRestorePasswordButton.setVisibility(View.VISIBLE);
+        if (UserManager.isProfileValid(this)) {
+            //mSearchCountriesButton.setVisibility(View.GONE);
+        } else {
+            //mSearchCountriesButton.setVisibility(View.VISIBLE);
         }
 
         mFbLoginButton.setReadPermissions(Arrays.asList("public_profile, email, user_birthday, user_friends"));
-        // Callback registration
         mFbLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(final LoginResult loginResult) {
-                // App code
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
+                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
                             @Override
-                            public void onCompleted(
-                                    JSONObject object,
-                                    GraphResponse response) {
-                                String email = null;
+                            public void onCompleted(JSONObject object, GraphResponse response) {
                                 try {
-                                    email = object.getString("email");
-                                    Log.v("LoginActivity", email);
+                                    String email = object.getString("email");
                                     File file = new File(ConstantsContainer.FILEPATH);
                                     try {
-                                        DataConverter.writeFile(email,file);
+                                        DataConverter.writeFile(email, file);
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                Log.v("LoginActivity", response.toString());
-                                Log.v("LoginActivity", loginResult.getAccessToken().getToken());
-
                             }
                         });
                 Bundle parameters = new Bundle();
-                parameters.putString("fields",  "id,name,email,gender, birthday");
+                parameters.putString("fields", "id,name,email,gender, birthday");
                 request.setParameters(parameters);
                 request.executeAsync();
             }
 
             @Override
             public void onCancel() {
-                // App code
-                Log.v("LoginActivity", "cancel");
+
             }
 
             @Override
-            public void onError(FacebookException exception) {
-                // App code
-                Log.v("LoginActivity", exception.getCause().toString());
-            }
-        });
+            public void onError(FacebookException error) {
 
-        mGoToMainButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!UserManager.isProfileValid(RPLoginActivity.this)) {
-                    Toast msg = Toast.makeText(RPLoginActivity.this, "Log in first", Toast.LENGTH_SHORT);
-                    msg.show();
-                } else {
-                    startActivity(new Intent(RPLoginActivity.this, MainActivity.class));
-                }
-            }
-        });
-
-        mRegisterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri uriUrl = Uri.parse(ConstantsContainer.REGISTER_LINK);
-                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-                startActivity(launchBrowser);
-            }
-        });
-
-        mRestorePasswordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri uriUrl = Uri.parse(ConstantsContainer.RESTORE_PASSWORD_LINK);
-                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-                startActivity(launchBrowser);
             }
         });
 
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        mCallbackManager.onActivityResult(requestCode, resultCode, intent);
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                String contents = intent.getStringExtra(SCAN_RESULT);
+                String format = intent.getStringExtra(SCAN_RESULT_FORMAT);
+                Toast toast = Toast.makeText(this, "Content:" + contents + " Format:" + format, Toast.LENGTH_LONG);
+                toast.show();
+            }
+        }
     }
 
     @Override
@@ -198,7 +162,43 @@ public class RPLoginActivity extends Activity {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-
-
     }
+
+    public void scanQR(View v) {
+        try {
+            Intent intent = new Intent(ACTION_SCAN);
+            intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
+            startActivityForResult(intent, 0);
+        } catch (ActivityNotFoundException e) {
+            showDialog(this, "No Scanner Found", "Download a scanner code activity?", "Yes", "No").show();
+        }
+    }
+
+    public void searchCountries(View v) {
+        Intent intent = new Intent(this, CountriesActivity.class);
+        startActivity(intent);
+    }
+
+    private static AlertDialog showDialog(final Activity act, CharSequence title, CharSequence message, CharSequence buttonYes, CharSequence buttonNo) {
+        AlertDialog.Builder downloadDialog = new AlertDialog.Builder(act);
+        downloadDialog.setTitle(title);
+        downloadDialog.setMessage(message);
+        downloadDialog.setPositiveButton(buttonYes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Uri uri = Uri.parse("market://search?q=pname:" + "com.google.zxing.client.android");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                try {
+                    act.startActivity(intent);
+                } catch (ActivityNotFoundException anfe) {
+
+                }
+            }
+        });
+        downloadDialog.setNegativeButton(buttonNo, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        return downloadDialog.show();
+    }
+
 }

@@ -37,4 +37,5 @@
     <string name="no_description">"no description for this duty"</string>
     <string name="scanQR">Scan QR-code</string>
     <string name="searchCountries">Search sightseeing</string>
+    <string name="choose_the_country">Choose the country</string>
 </resources>

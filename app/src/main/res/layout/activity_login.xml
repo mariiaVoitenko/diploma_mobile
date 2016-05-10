@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.RPLoginActivity">
+    tools:context="com.voitenko.diploma.mobile.activity.RPLoginActivity">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -15,7 +15,7 @@
 
         <ImageView
             android:layout_width="fill_parent"
-            android:layout_height="300dp"
+            android:layout_height="400dp"
             android:src="@drawable/logo" />
 
         <com.facebook.login.widget.LoginButton
@@ -37,6 +37,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="scanQR"
                 android:text="@string/scanQR" />
 
             <Button
@@ -44,6 +45,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="searchCountries"
                 android:text="@string/searchCountries" />
         </LinearLayout>
 

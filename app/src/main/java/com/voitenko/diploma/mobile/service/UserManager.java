@@ -1,4 +1,4 @@
-package diploma.voitenko.com.diploma_mobile.service;
+package com.voitenko.diploma.mobile.service;
 
 import android.content.Context;
 
