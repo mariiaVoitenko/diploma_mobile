@@ -13,6 +13,9 @@ public class Region {
     @Expose
     private String name;
 
+    @Expose
+    private Country country;
+
     public Region() {
 
     }
@@ -21,9 +24,10 @@ public class Region {
         this.name = name;
     }
 
-    public Region(int id, String name) {
+    public Region(int id, String name, Country country) {
         this.id = id;
         this.name = name;
+        this.country = country;
     }
 
     public Integer getId() {
@@ -42,4 +46,11 @@ public class Region {
         this.name = name;
     }
 
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
 }

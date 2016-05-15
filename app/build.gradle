@@ -30,4 +30,5 @@ dependencies {
     compile 'com.android.support:support-v4:22.0.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'org.glassfish:javax.annotation:10.0-b28'
+    compile 'com.google.android.gms:play-services-maps:8.3.0'
 }

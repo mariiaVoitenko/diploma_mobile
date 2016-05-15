@@ -38,4 +38,9 @@
     <string name="scanQR">Scan QR-code</string>
     <string name="searchCountries">Search sightseeing</string>
     <string name="choose_the_country">Choose the country</string>
+    <string name="choose_the_region">Choose the region</string>
+    <string name="choose_the_sightseeing">Choose the sightseeing</string>
+    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
+    YOUR API KEY HERE!!!
+</string>
 </resources>
