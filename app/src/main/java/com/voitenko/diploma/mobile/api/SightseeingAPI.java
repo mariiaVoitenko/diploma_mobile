@@ -11,6 +11,7 @@ import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 import retrofit.http.Path;
 
 public interface SightseeingAPI {
@@ -19,7 +20,10 @@ public interface SightseeingAPI {
     void getSightseeing(@Path("id") int id, Callback<Sightseeing> response);
 
     @POST("/api/sightseeings")
-    void setSightseeing(@Body Category category, Callback<String> response);
+    void setSightseeing(@Body Sightseeing sightseeing, Callback<String> response);
+
+    @PUT("/api/sightseeings")
+    public void editSightseeing(@Body Sightseeing sightseeing, Callback<String> response);
 
     @DELETE("/api/sightseeings/{id}")
     void deleteSightseeing(@Path("id") int id, Callback<Sightseeing> response);

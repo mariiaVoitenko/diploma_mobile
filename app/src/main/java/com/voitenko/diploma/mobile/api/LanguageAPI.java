@@ -18,7 +18,7 @@ public interface LanguageAPI {
     void getLanguage(@Path("id") int id, Callback<Language> response);
 
     @POST("/api/languages")
-    void setLanguage(@Body Category category, Callback<String> response);
+    void setLanguage(@Body Language language, Callback<String> response);
 
     @DELETE("/api/languages/{id}")
     void deleteLanguage(@Path("id") int id, Callback<Language> response);

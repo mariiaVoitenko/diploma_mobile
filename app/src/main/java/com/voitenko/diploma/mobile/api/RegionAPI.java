@@ -19,7 +19,7 @@ public interface RegionAPI {
     void getRegion(@Path("id") int id, Callback<Region> response);
 
     @POST("/api/regions")
-    void setRegion(@Body Category category, Callback<String> response);
+    void setRegion(@Body Region region, Callback<String> response);
 
     @DELETE("/api/regions/{id}")
     void deleteRegion(@Path("id") int id, Callback<Region> response);

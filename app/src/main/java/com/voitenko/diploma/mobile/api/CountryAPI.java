@@ -19,7 +19,7 @@ public interface CountryAPI {
     void getCountry(@Path("id") int id, Callback<Country> response);
 
     @POST("/api/countries")
-    void setCountry(@Body Category category, Callback<String> response);
+    void setCountry(@Body Country country, Callback<String> response);
 
     @DELETE("/api/countries/{id}")
     void deleteCountry(@Path("id") int id, Callback<Country> response);

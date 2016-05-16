@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.text.BoringLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -18,19 +19,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.voitenko.diploma.mobile.ConstantsContainer;
+import com.voitenko.diploma.mobile.Utils;
 import com.voitenko.diploma.mobile.model.Region;
 import com.voitenko.diploma.mobile.model.Sightseeing;
 
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
+import com.voitenko.diploma.mobile.task.RetrieveImageTask;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -64,46 +58,17 @@ public class SightseeingListAdapter extends ArrayAdapter<Sightseeing> {
         Sightseeing sightseeing = objects.get(position);
         name.setText(sightseeing.getName());
         info.setText(sightseeing.getInfo());
-        try {
-            String path = ENDPOINT + SIGHTSEEING_IMAGE_API + sightseeing.getId();
-            Bitmap bitmap = new RetrieveImageTask().execute(path).get();
-            imageView.setImageBitmap(bitmap);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        int width = getMetrics().widthPixels;
+        imageView.setImageBitmap(Utils.getBitmap(sightseeing.getId()));
+
+        DisplayMetrics metrics = Utils.getMetrics(context);
+        int width = metrics.widthPixels;
         int halfWidth = width / 2;
-        int height = getMetrics().heightPixels;
+        int height = metrics.heightPixels;
         LinearLayout linearLayout = (LinearLayout) rowView.findViewById(R.id.item_details_content);
-        Double v = width * 0.7;
-        //linearLayout.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
-        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(halfWidth, height/3, 1));
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(halfWidth, height / 3, 1));
         imageView.setLayoutParams(new LinearLayout.LayoutParams(halfWidth, halfWidth, 1));
         return rowView;
 
-    }
-
-    private DisplayMetrics getMetrics() {
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        DisplayMetrics metrics = new DisplayMetrics();
-        display.getMetrics(metrics);
-        return metrics;
-    }
-
-    class RetrieveImageTask extends AsyncTask<String, Void, Bitmap> {
-
-        protected Bitmap doInBackground(String... urls) {
-            try {
-                URL url = new URL(urls[0]);
-                return BitmapFactory.decodeStream((InputStream) url.getContent());
-            } catch (Exception e) {
-                Log.e("Image downloading error", "Async task failed");
-            }
-            return null;
-        }
     }
 
     public Sightseeing getItem(int position) {

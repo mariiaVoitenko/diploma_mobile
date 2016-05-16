@@ -5,6 +5,7 @@ import com.voitenko.diploma.mobile.model.Account;
 import java.util.ArrayList;
 
 import retrofit.Callback;
+import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
 import retrofit.http.POST;
@@ -16,7 +17,7 @@ public interface AccountAPI {
     void getAccount(@Path("id") int id, Callback<Account> response);
 
     @POST("/api/account")
-    Account setAccount(Callback<Account> response);
+    Account setAccount(@Body Account account, Callback<Account> response);
 
     @DELETE("/api/account/{id}")
     void deleteAccount(@Path("id") int id, Callback<Account> response);

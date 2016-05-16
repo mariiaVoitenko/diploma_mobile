@@ -32,6 +32,9 @@ public class Sightseeing {
     private Float rating;
 
     @Expose
+    private Long votes_count;
+
+    @Expose
     private Region region;
 
     public Sightseeing() {
@@ -39,7 +42,7 @@ public class Sightseeing {
     }
 
     public Sightseeing(Integer id, String name, Category category, String info, Float latitude,
-                       Float longitude, String photo, Float rating, Region region) {
+                       Float longitude, String photo, Float rating, Long votes_count, Region region) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -49,6 +52,7 @@ public class Sightseeing {
         this.photo = photo;
         this.rating = rating;
         this.region = region;
+        this.votes_count = votes_count;
     }
 
     public Integer getId() {
@@ -121,5 +125,13 @@ public class Sightseeing {
 
     public void setRegion(Region region) {
         this.region = region;
+    }
+
+    public Long getVotes_count() {
+        return votes_count;
+    }
+
+    public void setVotes_count(Long votes_count) {
+        this.votes_count = votes_count;
     }
 }

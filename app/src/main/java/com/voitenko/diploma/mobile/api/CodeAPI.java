@@ -19,7 +19,7 @@ public interface CodeAPI {
     void getCode(@Path("id") int id, Callback<Code> response);
 
     @POST("/api/codes")
-    void setCode(@Body Category category, Callback<String> response);
+    void setCode(@Body Code code, Callback<String> response);
 
     @DELETE("/api/codes/{id}")
     void deleteCode(@Path("id") int id, Callback<Code> response);
