@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.voitenko.diploma.mobile.ConstantsContainer;
+import com.voitenko.diploma.mobile.R;
 import com.voitenko.diploma.mobile.Utils;
 import com.voitenko.diploma.mobile.model.Region;
 import com.voitenko.diploma.mobile.model.Sightseeing;
@@ -31,7 +32,6 @@ import java.util.concurrent.ExecutionException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import diploma.voitenko.com.diploma_mobile.R;
 
 import static com.voitenko.diploma.mobile.ConstantsContainer.*;
 

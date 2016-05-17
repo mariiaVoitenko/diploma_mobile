@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="diploma.voitenko.com.diploma_mobile">
+    package="com.voitenko.diploma.mobile">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -11,17 +11,17 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="com.voitenko.diploma.mobile.permission.MAPS_RECEIVE" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
-        android:required="true"/>
+        android:required="true" />
 
     <permission
-        android:name="com.example.permission.MAPS_RECEIVE"
-        android:protectionLevel="signature"/>
-    <uses-permission android:name="com.example.permission.MAPS_RECEIVE"/>
+        android:name="com.voitenko.diploma.mobile.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
 
     <application
         android:allowBackup="true"
@@ -31,9 +31,12 @@
         android:theme="@style/AppTheme">
 
         <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/APP_ID" />
@@ -52,32 +55,25 @@
             android:name="com.facebook.FacebookActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
         <activity
             android:name="com.voitenko.diploma.mobile.activity.CountriesActivity"
-            android:label="@string/app_name" >
-        </activity>
-
+            android:label="@string/app_name" />
         <activity
             android:name="com.voitenko.diploma.mobile.activity.RegionsActivity"
-            android:label="@string/app_name" >
-        </activity>
-
+            android:label="@string/app_name" />
         <activity
             android:name="com.voitenko.diploma.mobile.activity.CategoriesActivity"
-            android:label="@string/app_name" >
-        </activity>
-
+            android:label="@string/app_name" />
         <activity
             android:name="com.voitenko.diploma.mobile.activity.SightseeingDetailsActivity"
-            android:label="@string/app_name" >
-        </activity>
-
+            android:label="@string/app_name" />
         <activity
             android:name="com.voitenko.diploma.mobile.activity.SightseeingsActivity"
-            android:label="@string/app_name" >
-        </activity>
+            android:label="@string/app_name" />
 
+        <activity
+            android:name="com.voitenko.diploma.mobile.activity.MapsActivity"
+            android:label="@string/title_activity_maps" />
     </application>
 
 </manifest>

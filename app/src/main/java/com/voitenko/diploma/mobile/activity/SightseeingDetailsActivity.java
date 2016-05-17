@@ -25,6 +25,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.voitenko.diploma.mobile.ConstantsContainer;
+import com.voitenko.diploma.mobile.R;
 import com.voitenko.diploma.mobile.Utils;
 import com.voitenko.diploma.mobile.adapter.SightseeingListAdapter;
 import com.voitenko.diploma.mobile.api.RegionAPI;
@@ -36,31 +37,20 @@ import com.voitenko.diploma.mobile.service.ServiceGenerator;
 import java.util.ArrayList;
 import java.util.List;
 
-import diploma.voitenko.com.diploma_mobile.R;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class SightseeingDetailsActivity extends Activity {
 
-    MapView mapView;
-    GoogleMap map;
+    private int sightseeingId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sightseeing_details);
-        mapView = (MapView) findViewById(R.id.mapview);
-        mapView.onCreate(savedInstanceState);
 
-        map = mapView.getMap();
-        map.getUiSettings().setMyLocationButtonEnabled(false);
-        map.setMyLocationEnabled(true);
-        MapsInitializer.initialize(SightseeingDetailsActivity.this);
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(43.1, -87.9), 10);
-        map.animateCamera(cameraUpdate);
-
-        final int sightseeingId = Integer.parseInt(getIntent().getStringExtra(ConstantsContainer.SIGHTSEEING_ID));
+        sightseeingId = Integer.parseInt(getIntent().getStringExtra(ConstantsContainer.SIGHTSEEING_ID));
         final SightseeingAPI sightseeingAPI = ServiceGenerator.createService(SightseeingAPI.class, ConstantsContainer.ENDPOINT);
 
         sightseeingAPI.getSightseeing(sightseeingId, new Callback<Sightseeing>() {
@@ -85,9 +75,9 @@ public class SightseeingDetailsActivity extends Activity {
                                 if (event.getAction() == MotionEvent.ACTION_UP) {
                                     int stars = getStars(event, ratingBar);
                                     Long votes = getVotesCount(result);
-                                    result.setVotes_count(votes);
-                                    final Float rating = getRating(stars, votes, result);
+                                    final Float rating = getRating(stars, result);
                                     result.setRating(rating);
+                                    result.setVotes_count(votes);
                                     sightseeingAPI.editSightseeing(result, new Callback<String>() {
                                         @Override
                                         public void success(String s, Response response) {
@@ -99,11 +89,8 @@ public class SightseeingDetailsActivity extends Activity {
                                             Log.d("!!!RETROFIT_ERROR!!!!!", error.getMessage());
                                         }
                                     });
-                                    ratingBar.setRating(stars);
+                                    ratingBar.setRating(rating.intValue());
                                     v.setPressed(false);
-                                }
-                                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                                    v.setPressed(true);
                                 }
                                 return true;
                             }
@@ -118,8 +105,10 @@ public class SightseeingDetailsActivity extends Activity {
         );
     }
 
-    private Float getRating(int stars, Long votes, Sightseeing result) {
-        return (result.getRating() * result.getVotes_count() + stars) / votes;
+    private Float getRating(int stars, Sightseeing result) {
+        Long votes = result.getVotes_count();
+        if (votes == 0) votes++;
+        return (result.getRating() * votes + stars) / (votes + 1);
     }
 
     @NonNull
@@ -134,4 +123,10 @@ public class SightseeingDetailsActivity extends Activity {
         return (int) starsf + 1;
     }
 
+
+    public void viewOnMap(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra(ConstantsContainer.SIGHTSEEING_ID, sightseeingId);
+        startActivity(intent);
+    }
 }

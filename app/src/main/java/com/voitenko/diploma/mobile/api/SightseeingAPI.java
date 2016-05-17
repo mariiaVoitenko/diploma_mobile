@@ -23,7 +23,7 @@ public interface SightseeingAPI {
     void setSightseeing(@Body Sightseeing sightseeing, Callback<String> response);
 
     @PUT("/api/sightseeings")
-    public void editSightseeing(@Body Sightseeing sightseeing, Callback<String> response);
+    void editSightseeing(@Body Sightseeing sightseeing, Callback<String> response);
 
     @DELETE("/api/sightseeings/{id}")
     void deleteSightseeing(@Path("id") int id, Callback<Sightseeing> response);

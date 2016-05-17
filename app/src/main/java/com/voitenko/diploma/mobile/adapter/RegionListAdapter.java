@@ -7,12 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.voitenko.diploma.mobile.R;
 import com.voitenko.diploma.mobile.model.Country;
 import com.voitenko.diploma.mobile.model.Region;
 
 import java.util.List;
 
-import diploma.voitenko.com.diploma_mobile.R;
 
 public class RegionListAdapter  extends ArrayAdapter<Region> {
 

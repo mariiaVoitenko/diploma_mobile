@@ -35,9 +35,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
-import diploma.voitenko.com.diploma_mobile.R;
-
 import com.voitenko.diploma.mobile.ConstantsContainer;
+import com.voitenko.diploma.mobile.R;
 import com.voitenko.diploma.mobile.service.DataConverter;
 import com.voitenko.diploma.mobile.service.UserManager;
 

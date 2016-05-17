@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.voitenko.diploma.mobile.ConstantsContainer;
+import com.voitenko.diploma.mobile.R;
 import com.voitenko.diploma.mobile.adapter.RegionListAdapter;
 import com.voitenko.diploma.mobile.adapter.SightseeingListAdapter;
 import com.voitenko.diploma.mobile.api.CountryAPI;
@@ -23,7 +24,6 @@ import com.voitenko.diploma.mobile.service.ServiceGenerator;
 import java.util.ArrayList;
 import java.util.List;
 
-import diploma.voitenko.com.diploma_mobile.R;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
