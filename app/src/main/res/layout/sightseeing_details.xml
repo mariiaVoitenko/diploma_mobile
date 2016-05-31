@@ -27,8 +27,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingLeft="7dp"
-                    android:paddingTop="7dp"
-                    android:src="@drawable/logo" />
+                    android:paddingTop="7dp" />
 
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/item_details_content"
@@ -43,7 +42,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Freedom Square"
                         android:textColor="#4a4a4a"
                         android:textSize="16sp"
                         android:textStyle="italic" />
@@ -53,7 +51,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Freedom Square"
                         android:textColor="#4a4a4a"
                         android:textSize="16sp"
                         android:textStyle="italic" />
@@ -63,10 +60,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Freedom Square"
                         android:textColor="#4a4a4a"
                         android:textSize="18sp"
-                        android:textStyle="italic" />
+                        android:textStyle="italic"/>
 
                     <RatingBar
                         android:id="@+id/ratingBar"
@@ -84,6 +80,13 @@
                         android:onClick="viewOnMap"
                         android:text="@string/view_on_map" />
 
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:onClick="playAudio"
+                        android:text="@string/play_audio" />
+
                     <TextView
                         android:id="@+id/info"
                         android:layout_width="wrap_content"
@@ -92,7 +95,6 @@
                         android:ellipsize="none"
                         android:maxLines="100"
                         android:scrollHorizontally="false"
-                        android:text="The Freedom Square is the main square of Kharkov and an architectural landmark. It is the second largest city-center square in Europe and the ninths in the world. It is the place of every possible events: concerts, demonstrations, fairs, meetings."
                         android:textColor="#4a4a4a"
                         android:textSize="14sp"
                         android:textStyle="italic" />

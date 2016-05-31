@@ -2,6 +2,8 @@ package com.voitenko.diploma.mobile.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,10 +12,18 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -33,12 +43,22 @@ import java.io.File;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.voitenko.diploma.mobile.ConstantsContainer;
 import com.voitenko.diploma.mobile.R;
+import com.voitenko.diploma.mobile.api.SightseeingAPI;
+import com.voitenko.diploma.mobile.api.SightseeingContentAPI;
+import com.voitenko.diploma.mobile.model.Category;
+import com.voitenko.diploma.mobile.model.SightseeingContent;
 import com.voitenko.diploma.mobile.service.DataConverter;
+import com.voitenko.diploma.mobile.service.ServiceGenerator;
 import com.voitenko.diploma.mobile.service.UserManager;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class RPLoginActivity extends Activity {
 
@@ -77,6 +97,7 @@ public class RPLoginActivity extends Activity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         mCallbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
+
 
         LoginButton mFbLoginButton = (LoginButton) findViewById(R.id.login_button);
 
@@ -133,9 +154,30 @@ public class RPLoginActivity extends Activity {
         if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
                 String contents = intent.getStringExtra(SCAN_RESULT);
-                String format = intent.getStringExtra(SCAN_RESULT_FORMAT);
-                Toast toast = Toast.makeText(this, "Content:" + contents + " Format:" + format, Toast.LENGTH_LONG);
-                toast.show();
+                final int contentId = Integer.parseInt(contents.split("/")[6]);
+                final SightseeingContentAPI sightseeingContentAPI = ServiceGenerator.createService(SightseeingContentAPI.class, ConstantsContainer.ENDPOINT);
+                sightseeingContentAPI.getAll(
+                        new Callback<ArrayList<SightseeingContent>>() {
+                            @Override
+                            public void success(ArrayList<SightseeingContent> result, Response response) {
+                                Integer sightSeeingId;
+                                for (SightseeingContent sightseeingContent : result) {
+                                    if (sightseeingContent.getContent().getId() == contentId) {
+                                        sightSeeingId = sightseeingContent.getSightseeing().getId();
+                                        Intent intent = new Intent(RPLoginActivity.this, SightseeingDetailsActivity.class);
+                                        intent.putExtra(ConstantsContainer.SIGHTSEEING_ID, sightSeeingId.toString());
+                                        startActivity(intent);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                Log.d("!!!RETROFIT_ERROR!!!!!", error.getMessage());
+                            }
+                        }
+
+                );
             }
         }
     }
@@ -178,8 +220,8 @@ public class RPLoginActivity extends Activity {
         startActivity(intent);
     }
 
-    private static AlertDialog showDialog(final Activity act, CharSequence title, CharSequence message, CharSequence buttonYes, CharSequence buttonNo) {
-        AlertDialog.Builder downloadDialog = new AlertDialog.Builder(act);
+    private static AlertDialog showDialog(final Activity activity, CharSequence title, CharSequence message, CharSequence buttonYes, CharSequence buttonNo) {
+        AlertDialog.Builder downloadDialog = new AlertDialog.Builder(activity);
         downloadDialog.setTitle(title);
         downloadDialog.setMessage(message);
         downloadDialog.setPositiveButton(buttonYes, new DialogInterface.OnClickListener() {
@@ -187,8 +229,8 @@ public class RPLoginActivity extends Activity {
                 Uri uri = Uri.parse("market://search?q=pname:" + "com.google.zxing.client.android");
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 try {
-                    act.startActivity(intent);
-                } catch (ActivityNotFoundException anfe) {
+                    activity.startActivity(intent);
+                } catch (ActivityNotFoundException e) {
 
                 }
             }

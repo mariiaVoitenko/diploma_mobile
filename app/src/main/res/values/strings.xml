@@ -42,4 +42,6 @@
     <string name="choose_the_sightseeing">Choose the sightseeing</string>
     <string name="view_on_map">View on map</string>
     <string name="title_activity_maps">Map</string>
+    <string name="choose_the_category">Choose the category</string>
+    <string name="play_audio">Play lecture</string>
 </resources>

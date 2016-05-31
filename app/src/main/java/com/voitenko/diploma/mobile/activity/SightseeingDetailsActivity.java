@@ -2,6 +2,8 @@ package com.voitenko.diploma.mobile.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
@@ -128,5 +130,18 @@ public class SightseeingDetailsActivity extends Activity {
         Intent intent = new Intent(this, MapsActivity.class);
         intent.putExtra(ConstantsContainer.SIGHTSEEING_ID, sightseeingId);
         startActivity(intent);
+    }
+
+    public void playAudio(View view) {
+        try {
+            MediaPlayer player = new MediaPlayer();
+            player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            String path = Utils.getAudio(sightseeingId);
+            player.setDataSource(path);
+            player.prepare();
+            player.start();
+        } catch (Exception e) {
+            Log.e("Unable to play audio", e.toString());
+        }
     }
 }
