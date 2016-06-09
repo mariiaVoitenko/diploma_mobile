@@ -1,11 +1,17 @@
 package com.voitenko.diploma.mobile.activity;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -15,7 +21,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +46,8 @@ import com.voitenko.diploma.mobile.service.ServiceGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -132,14 +142,49 @@ public class SightseeingDetailsActivity extends Activity {
         startActivity(intent);
     }
 
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
     public void playAudio(View view) {
         try {
             MediaPlayer player = new MediaPlayer();
             player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            String path = Utils.getAudio(sightseeingId);
-            player.setDataSource(path);
-            player.prepare();
-            player.start();
+
+            final ProgressDialog dialog = new ProgressDialog(this);
+            dialog.setTitle("Loading...");
+            dialog.setMessage("Please wait.");
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.show();
+
+            long delayInMillis = 5000;
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    dialog.dismiss();
+                }
+            }, delayInMillis);
+
+            int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                // We don't have permission so prompt the user
+                ActivityCompat.requestPermissions(
+                        this,
+                        PERMISSIONS_STORAGE,
+                        REQUEST_EXTERNAL_STORAGE
+                );
+            }
+
+            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath()+"/1.mp3";
+            //String path = absolutePath.substring(0, absolutePath.length()-4)+"test/1.mp3";
+            Intent intent = new Intent(this, PlayerActivity.class);
+            intent.putExtra(ConstantsContainer.PATH, path);
+            startActivity(intent);
         } catch (Exception e) {
             Log.e("Unable to play audio", e.toString());
         }

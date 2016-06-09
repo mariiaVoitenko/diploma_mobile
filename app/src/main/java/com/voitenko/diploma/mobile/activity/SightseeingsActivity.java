@@ -25,6 +25,7 @@ import com.voitenko.diploma.mobile.model.Sightseeing;
 import com.voitenko.diploma.mobile.service.ServiceGenerator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit.Callback;
@@ -104,10 +105,8 @@ public class SightseeingsActivity extends Activity {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Sightseeing sightseeing = adapter.getItem(position);
-                                TextView textView = (TextView) findViewById(R.id.chosenSightseeingID);
-                                textView.setText(sightseeing.getId().toString());
                                 Intent intent = new Intent(SightseeingsActivity.this, SightseeingDetailsActivity.class);
-                                intent.putExtra(ConstantsContainer.SIGHTSEEING_ID, textView.getText().toString());
+                                intent.putExtra(ConstantsContainer.SIGHTSEEING_ID, sightseeing.getId().toString());
                                 startActivity(intent);
                             }
                         });
@@ -128,6 +127,7 @@ public class SightseeingsActivity extends Activity {
                     @Override
                     public void success(ArrayList<Sightseeing> result, Response response) {
                         ListView regionsListView = (ListView) findViewById(R.id.sightseeings_list);
+                        Collections.sort(result);
 
                         List<Sightseeing> thisRegionSightseeings = new ArrayList<>();
                         if (!categoryName.equals(getResources().getString(R.string.choose_the_category))) {
@@ -135,8 +135,7 @@ public class SightseeingsActivity extends Activity {
                                 if (sightseeing.getRegion().getId() == regionId && sightseeing.getCategory().getName().equals(categoryName))
                                     thisRegionSightseeings.add(sightseeing);
                             }
-                        }
-                        else {
+                        } else {
                             for (Sightseeing sightseeing : result) {
                                 if (sightseeing.getRegion().getId() == regionId)
                                     thisRegionSightseeings.add(sightseeing);
@@ -151,10 +150,8 @@ public class SightseeingsActivity extends Activity {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Sightseeing sightseeing = adapter.getItem(position);
-                                TextView textView = (TextView) findViewById(R.id.chosenSightseeingID);
-                                textView.setText(sightseeing.getId().toString());
                                 Intent intent = new Intent(SightseeingsActivity.this, SightseeingDetailsActivity.class);
-                                intent.putExtra(ConstantsContainer.SIGHTSEEING_ID, textView.getText().toString());
+                                intent.putExtra(ConstantsContainer.SIGHTSEEING_ID, sightseeing.getId().toString());
                                 startActivity(intent);
                             }
                         });

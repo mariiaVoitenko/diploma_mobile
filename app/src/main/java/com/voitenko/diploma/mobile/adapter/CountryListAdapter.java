@@ -11,6 +11,7 @@ import com.voitenko.diploma.mobile.R;
 import com.voitenko.diploma.mobile.model.Country;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -27,7 +28,6 @@ public class CountryListAdapter extends ArrayAdapter<Country> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.country_row, parent, false);

@@ -49,17 +49,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         sightseeingAPI.getSightseeing(sightseeingId, new Callback<Sightseeing>() {
                     @Override
                     public void success(final Sightseeing result, Response response) {
-                        LatLng sydney = new LatLng(result.getLatitude(), result.getLongitude());
-                        map.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-                        map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                        LatLng coordinates = new LatLng(result.getLatitude(), result.getLongitude());
+                        map.addMarker(new MarkerOptions().position(coordinates).title(result.getName()));
+                        map.moveCamera(CameraUpdateFactory.newLatLng(coordinates));
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.d("!!!RETROFIT_ERROR!!!!!", error.getMessage());
+                        Log.d("RETROFIT_ERROR", error.getMessage());
                     }
                 }
         );
-
     }
 }

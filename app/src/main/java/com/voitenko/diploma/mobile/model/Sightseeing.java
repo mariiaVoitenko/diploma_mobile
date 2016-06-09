@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
-public class Sightseeing {
+public class Sightseeing implements Comparable<Sightseeing>{
 
     @Expose
     private Integer id;
@@ -133,5 +133,10 @@ public class Sightseeing {
 
     public void setVotes_count(Long votes_count) {
         this.votes_count = votes_count;
+    }
+
+    @Override
+    public int compareTo(Sightseeing another) {
+        return this.name.compareTo(another.getName());
     }
 }

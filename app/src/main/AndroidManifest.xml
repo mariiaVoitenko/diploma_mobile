@@ -14,6 +14,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="com.voitenko.diploma.mobile.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -75,6 +77,10 @@
         <activity
             android:name="com.voitenko.diploma.mobile.activity.MapsActivity"
             android:label="@string/title_activity_maps" />
+
+        <activity
+            android:name="com.voitenko.diploma.mobile.activity.PlayerActivity"
+            android:label="@string/title_activity_player" />
     </application>
 
 </manifest>

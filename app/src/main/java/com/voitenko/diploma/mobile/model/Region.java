@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
-public class Region {
+public class Region implements Comparable<Region>{
 
     @Expose
     private Integer id;
@@ -52,5 +52,10 @@ public class Region {
 
     public Country getCountry() {
         return country;
+    }
+
+    @Override
+    public int compareTo(Region another) {
+        return this.getName().compareTo(another.getName());
     }
 }

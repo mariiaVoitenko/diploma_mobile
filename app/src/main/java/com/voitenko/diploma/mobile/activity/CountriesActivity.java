@@ -18,6 +18,7 @@ import com.voitenko.diploma.mobile.model.Country;
 import com.voitenko.diploma.mobile.service.ServiceGenerator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -35,6 +36,7 @@ public class CountriesActivity extends Activity {
                     @Override
                     public void success(ArrayList<Country> result, Response response) {
                         ListView countriesListView = (ListView) findViewById(R.id.countries_list);
+                        Collections.sort(result);
                         final ArrayAdapter<Country> adapter = new CountryListAdapter(CountriesActivity.this,
                                 result);
                         countriesListView.setAdapter(adapter);

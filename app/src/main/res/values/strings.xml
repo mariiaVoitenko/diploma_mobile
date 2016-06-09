@@ -15,7 +15,7 @@
     </string>
 
     <string name="action_logout">Log out</string>
-    <string name="APP_ID">911833842191522</string>
+    <string name="APP_ID">171789133221172</string>
     <string name="default_greetings">Log in, please</string>
     <string name="gotomain">Go to main screen</string>
     <string name="create_duty">Create duty</string>
@@ -42,6 +42,7 @@
     <string name="choose_the_sightseeing">Choose the sightseeing</string>
     <string name="view_on_map">View on map</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_player">Player</string>
     <string name="choose_the_category">Choose the category</string>
     <string name="play_audio">Play lecture</string>
 </resources>

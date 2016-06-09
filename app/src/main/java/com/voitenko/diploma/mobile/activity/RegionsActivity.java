@@ -18,6 +18,7 @@ import com.voitenko.diploma.mobile.model.Region;
 import com.voitenko.diploma.mobile.service.ServiceGenerator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit.Callback;
@@ -39,6 +40,7 @@ public class RegionsActivity extends Activity {
                     @Override
                     public void success(ArrayList<Region> result, Response response) {
                         ListView regionsListView = (ListView) findViewById(R.id.regions_list);
+                        Collections.sort(result);
 
                         List<Region> thisCountryRegions = new ArrayList<>();
                         for (Region region : result) {
